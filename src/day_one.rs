@@ -29,8 +29,9 @@ fn part_one(lines: &Vec<usize>) -> usize {
 fn part_two(lines: &Vec<usize>) -> usize {
     let computed_lines = lines
         .iter()
-        .zip(lines.iter().skip(1).zip(lines.iter().skip(2)))
-        .map(|(item, (item_1, item_2))| item + item_1 + item_2)
+        .as_slice()
+        .windows(3)
+        .map(|items| items.iter().sum())
         .collect();
 
     part_one(&computed_lines)

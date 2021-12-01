@@ -9,6 +9,7 @@ fn main() {
         .collect();
 
     println!("Part one: {}", part_one(&lines));
+    println!("Part two: {}", part_two(&lines));
 }
 
 fn part_one(lines: &Vec<usize>) -> usize {
@@ -20,6 +21,16 @@ fn part_one(lines: &Vec<usize>) -> usize {
                 return total + 1;
             }
 
-            return total;
+            total
         })
+}
+
+fn part_two(lines: &Vec<usize>) -> usize {
+    let computed_lines = lines
+        .iter()
+        .zip(lines.iter().skip(1).zip(lines.iter().skip(2)))
+        .map(|(item, (item_1, item_2))| item + item_1 + item_2)
+        .collect();
+
+    part_one(&computed_lines)
 }

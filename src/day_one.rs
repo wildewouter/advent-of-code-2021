@@ -13,7 +13,7 @@ pub fn run() {
     println!("Part two: {}", part_two(&lines));
 }
 
-fn part_one(lines: &Vec<usize>) -> usize {
+fn part_one(lines: &[usize]) -> usize {
     lines
         .iter()
         .zip(lines.iter().skip(1))
@@ -26,13 +26,8 @@ fn part_one(lines: &Vec<usize>) -> usize {
         })
 }
 
-fn part_two(lines: &Vec<usize>) -> usize {
-    let computed_lines = lines
-        .iter()
-        .as_slice()
-        .windows(3)
-        .map(|items| items.iter().sum())
-        .collect();
+fn part_two(lines: &[usize]) -> usize {
+    let computed_lines: Vec<usize> = lines.windows(3).map(|items| items.iter().sum()).collect();
 
     part_one(&computed_lines)
 }

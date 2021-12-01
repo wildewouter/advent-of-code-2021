@@ -14,16 +14,16 @@ pub fn run() {
 }
 
 fn part_one(lines: &[usize]) -> usize {
-    lines
-        .iter()
-        .zip(lines.iter().skip(1))
-        .fold(0, |total, (previous, next)| {
+    lines.windows(2).fold(0, |total, pair| match pair {
+        [previous, next] => {
             if next > previous {
                 return total + 1;
             }
 
             total
-        })
+        }
+        _ => total,
+    })
 }
 
 fn part_two(lines: &[usize]) -> usize {

@@ -18,50 +18,42 @@ pub fn run() {
 }
 
 fn part_one(movement: &[(String, usize)]) -> usize {
-    let new_coordinates = movement.iter().fold((0, 0), |coordinates, movement_pair| {
-        match movement_pair {
-            (direction, amount) => {
-                let (x, y): (usize, usize) = match direction.as_ref() {
-                    "forward" => {
-                        (coordinates.0, coordinates.1 + amount)
-                    }
-                    "down" => {
-                        (coordinates.0 + amount, coordinates.1)
-                    }
-                    "up" => {
-                        (coordinates.0 - amount, coordinates.1)
-                    }
-                    _ => coordinates,
-                };
-
-                return (x, y);
+    let new_coordinates = movement.iter().fold((0, 0), |coordinates, (direction, amount)| {
+        let (x, y): (usize, usize) = match direction.as_ref() {
+            "forward" => {
+                (coordinates.0, coordinates.1 + amount)
             }
-        }
+            "down" => {
+                (coordinates.0 + amount, coordinates.1)
+            }
+            "up" => {
+                (coordinates.0 - amount, coordinates.1)
+            }
+            _ => coordinates,
+        };
+
+        (x, y)
     });
 
     new_coordinates.0 * new_coordinates.1
 }
 
 fn part_two(movement: &[(String, usize)]) -> usize {
-    let new_coordinates = movement.iter().fold((0, 0, 0), |coordinates, movement_pair| {
-        match movement_pair {
-            (direction, amount) => {
-                let (x, y, z): (usize, usize, usize) = match direction.as_ref() {
-                    "forward" => {
-                        (coordinates.0 + (amount * coordinates.2), coordinates.1 + amount, coordinates.2)
-                    }
-                    "down" => {
-                        (coordinates.0, coordinates.1, coordinates.2 + amount)
-                    }
-                    "up" => {
-                        (coordinates.0, coordinates.1, coordinates.2 - amount)
-                    }
-                    _ => coordinates,
-                };
-
-                return (x, y, z);
+    let new_coordinates = movement.iter().fold((0, 0, 0), |coordinates, (direction, amount)| {
+        let (x, y, z): (usize, usize, usize) = match direction.as_ref() {
+            "forward" => {
+                (coordinates.0 + (amount * coordinates.2), coordinates.1 + amount, coordinates.2)
             }
-        }
+            "down" => {
+                (coordinates.0, coordinates.1, coordinates.2 + amount)
+            }
+            "up" => {
+                (coordinates.0, coordinates.1, coordinates.2 - amount)
+            }
+            _ => coordinates,
+        };
+
+        (x, y, z)
     });
 
     new_coordinates.0 * new_coordinates.1

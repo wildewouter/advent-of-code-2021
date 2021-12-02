@@ -36,7 +36,6 @@ fn part_one(movement: &[(String, usize)]) -> usize {
 
                 return (x, y);
             }
-            _ => coordinates
         }
     });
 
@@ -62,7 +61,6 @@ fn part_two(movement: &[(String, usize)]) -> usize {
 
                 return (x, y, z);
             }
-            _ => coordinates
         }
     });
 

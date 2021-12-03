@@ -1,7 +1,7 @@
 use crate::read;
 
 pub fn run() {
-    let content = read::file("day-1/input");
+    let content = read::file("input/day-1/input");
 
     let lines: Vec<usize> = content
         .lines()

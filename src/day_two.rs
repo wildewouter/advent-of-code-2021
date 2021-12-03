@@ -1,7 +1,7 @@
 use crate::read;
 
 pub fn run() {
-    let content: Vec<(String, usize)> = read::file("day-2/input")
+    let content: Vec<(String, usize)> = read::file("input/day-2/input")
         .lines()
         .map(|line| {
             let mut split_line = line.split_whitespace();

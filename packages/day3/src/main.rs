@@ -1,8 +1,9 @@
-use crate::read;
 use std::str::FromStr;
 
-pub fn run() {
-    let content: Vec<Binary> = read::file("input/day-3/input")
+fn main() {
+    let path = format!("{}/input", env!("CARGO_MANIFEST_DIR"));
+
+    let content: Vec<Binary> = read::file(&path)
         .lines()
         .filter_map(|line| line.parse::<Binary>().ok())
         .collect();

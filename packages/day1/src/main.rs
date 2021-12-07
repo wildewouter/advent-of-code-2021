@@ -1,7 +1,6 @@
-use crate::read;
-
-pub fn run() {
-    let content = read::file("input/day-1/input");
+fn main() {
+    let path = format!("{}/input", env!("CARGO_MANIFEST_DIR"));
+    let content = read::file(&path);
 
     let lines: Vec<usize> = content
         .lines()

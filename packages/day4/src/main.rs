@@ -1,9 +1,15 @@
-use crate::read;
 use std::collections::{HashMap, HashSet};
 use std::str::FromStr;
 
-pub fn run() {
-    let content = read::file("input/day-4/input");
+fn main() {
+    let path = format!("{}/input", env!("CARGO_MANIFEST_DIR"));
+    let content = read::file(&path);
+
+    println!("Part one: {}", part_one(&content));
+    println!("Part two: {}", part_two(&content));
+}
+
+fn part_one(content: &str) -> usize {
     let (hits_string, cards_string) = content.split_once("\n\n").unwrap();
 
     let hits: Vec<usize> = hits_string
@@ -16,18 +22,24 @@ pub fn run() {
         .map(|card_string| card_string.parse::<BingoCard>().unwrap())
         .collect();
 
-    // enable one or two
-    // println!("Part one: {}", part_one(hits, cards));
-    println!("Part two: {}", part_two(hits, cards));
-}
-
-fn part_one(hits: Vec<usize>, cards: Vec<BingoCard>) -> usize {
     let winners = play(cards, &hits);
     let (winning_card, final_number) = winners.first().unwrap();
     count_not_hit(winning_card) * final_number
 }
 
-fn part_two(hits: Vec<usize>, cards: Vec<BingoCard>) -> usize {
+fn part_two(content: &str) -> usize {
+    let (hits_string, cards_string) = content.split_once("\n\n").unwrap();
+
+    let hits: Vec<usize> = hits_string
+        .split(',')
+        .map(|hit_string| hit_string.parse::<usize>().unwrap())
+        .collect();
+
+    let cards: Vec<BingoCard> = cards_string
+        .split("\n\n")
+        .map(|card_string| card_string.parse::<BingoCard>().unwrap())
+        .collect();
+
     let winners = play(cards, &hits);
     let (last_card, final_number) = winners.last().unwrap();
     count_not_hit(last_card) * final_number

@@ -6,12 +6,8 @@ pub fn run() {
     let content = read::file("input/day-4/input");
     let (hits_string, cards_string) = content.split_once("\n\n").unwrap();
 
-    println!("Part one: {}", part_one(hits_string, cards_string));
-}
-
-fn part_one(hits_string: &str, cards_string: &str) -> usize {
     let hits: Vec<usize> = hits_string
-        .split(",")
+        .split(',')
         .map(|hit_string| hit_string.parse::<usize>().unwrap())
         .collect();
 
@@ -20,52 +16,58 @@ fn part_one(hits_string: &str, cards_string: &str) -> usize {
         .map(|card_string| card_string.parse::<BingoCard>().unwrap())
         .collect();
 
-    let (winning_card, final_number) = play(cards, &hits).unwrap();
-
-    count_not_hit(&winning_card) * final_number
+    // enable one or two
+    // println!("Part one: {}", part_one(hits, cards));
+    println!("Part two: {}", part_two(hits, cards));
 }
 
-fn play(mut cards: Vec<BingoCard>, hits: &[usize]) -> Option<(BingoCard, usize)> {
+fn part_one(hits: Vec<usize>, cards: Vec<BingoCard>) -> usize {
+    let winners = play(cards, &hits);
+    let (winning_card, final_number) = winners.first().unwrap();
+    count_not_hit(winning_card) * final_number
+}
+
+fn part_two(hits: Vec<usize>, cards: Vec<BingoCard>) -> usize {
+    let winners = play(cards, &hits);
+    let (last_card, final_number) = winners.last().unwrap();
+    count_not_hit(last_card) * final_number
+}
+
+fn play(mut cards: Vec<BingoCard>, hits: &[usize]) -> Vec<(BingoCard, usize)> {
+    let mut winners = Vec::new();
+
     for hit in hits {
+        if winners.len() == cards.len() {
+            break;
+        }
+
         cards.iter_mut().for_each(|card| {
+            if card.is_complete {
+                return;
+            }
+
             card.hits.insert(*hit);
-        });
 
-        let result: Option<BingoCard> = cards.iter().fold(None, |result, card| match result {
-            Some(winner) => Some(winner),
-            None => {
-                let mut rows: HashMap<usize, usize> = HashMap::new();
-                let mut columns: HashMap<usize, usize> = HashMap::new();
+            let mut rows: HashMap<usize, usize> = HashMap::new();
+            let mut columns: HashMap<usize, usize> = HashMap::new();
 
-                card.hits.iter().for_each(|val| match card.grid.get(&val) {
-                    Some((row, column)) => {
-                        rows.insert(*row, *rows.get(row).unwrap_or(&0) + 1);
-                        columns.insert(*column, *columns.get(column).unwrap_or(&0) + 1);
-                    }
-                    None => (),
-                });
-
-                let is_win = rows.values().max().unwrap_or(&0) == &card.size
-                    || columns.values().max().unwrap_or(&0) == &card.size;
-
-                if !is_win {
-                    return None;
+            card.hits.iter().for_each(|val| {
+                if let Some((row, column)) = card.grid.get(val) {
+                    rows.insert(*row, *rows.get(row).unwrap_or(&0) + 1);
+                    columns.insert(*column, *columns.get(column).unwrap_or(&0) + 1);
                 }
+            });
 
-                Some(BingoCard {
-                    grid: card.grid.clone(),
-                    size: card.size.clone(),
-                    hits: card.hits.clone(),
-                })
+            if rows.values().max().unwrap_or(&0) == &card.size
+                || columns.values().max().unwrap_or(&0) == &card.size
+            {
+                card.is_complete = true;
+                winners.push((card.clone(), *hit));
             }
         });
-
-        if result.is_some() {
-            return Some((result.unwrap(), *hit));
-        }
     }
 
-    None
+    winners
 }
 
 fn count_not_hit(card: &BingoCard) -> usize {
@@ -75,11 +77,12 @@ fn count_not_hit(card: &BingoCard) -> usize {
         .sum()
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 struct BingoCard {
     grid: HashMap<usize, (usize, usize)>,
     size: usize,
     hits: HashSet<usize>,
+    is_complete: bool,
 }
 
 impl FromStr for BingoCard {
@@ -88,7 +91,7 @@ impl FromStr for BingoCard {
     fn from_str(card_string: &str) -> Result<Self, Self::Err> {
         let mut grid = HashMap::new();
 
-        for (y, row) in card_string.split("\n").enumerate() {
+        for (y, row) in card_string.split('\n').enumerate() {
             for (x, cell) in row.split_whitespace().enumerate() {
                 grid.insert(cell.parse::<usize>().unwrap(), (x, y));
             }
@@ -98,6 +101,7 @@ impl FromStr for BingoCard {
             grid,
             size: 5,
             hits: HashSet::new(),
+            is_complete: false,
         })
     }
 }

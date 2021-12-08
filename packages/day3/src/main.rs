@@ -18,17 +18,23 @@ struct Binary {
     split: Vec<usize>,
 }
 
+impl Binary {
+    fn new(split: Vec<usize>) -> Self {
+        Binary { split }
+    }
+}
+
 impl FromStr for Binary {
     type Err = ();
 
     fn from_str(input: &str) -> Result<Binary, ()> {
-        Ok(Binary {
-            split: input
+        Ok(Binary::new(
+            input
                 .split("")
                 .into_iter()
                 .filter_map(|val| val.parse::<usize>().ok())
                 .collect(),
-        })
+        ))
     }
 }
 
@@ -77,8 +83,8 @@ fn count(input: &[Binary]) -> Vec<usize> {
 
 fn get_most_common(input: &[Binary]) -> Binary {
     let count = count(input);
-    Binary {
-        split: count
+    Binary::new(
+        count
             .iter()
             .map(|&bit| {
                 if bit * 2 >= input.len() {
@@ -88,14 +94,14 @@ fn get_most_common(input: &[Binary]) -> Binary {
                 0
             })
             .collect(),
-    }
+    )
 }
 
 fn get_least_common(input: &[Binary]) -> Binary {
     let count = count(input);
 
-    Binary {
-        split: count
+    Binary::new(
+        count
             .into_iter()
             .map(|bit| {
                 if bit * 2 < input.len() {
@@ -105,7 +111,7 @@ fn get_least_common(input: &[Binary]) -> Binary {
                 0
             })
             .collect(),
-    }
+    )
 }
 
 fn part_two(input: &[Binary]) -> usize {
@@ -151,33 +157,18 @@ fn calc_co2(list_to_check: &[Binary], current_index: Option<usize>) -> usize {
 
 #[cfg(test)]
 mod tests {
-    use crate::day_three::get_most_common;
-    use crate::day_three::Binary;
+    use crate::{get_most_common, Binary};
 
     #[test]
     fn it_should_count_most_common() {
         let result = get_most_common(&[
-            Binary {
-                split: vec![1, 1, 1, 1, 0],
-            },
-            Binary {
-                split: vec![1, 0, 1, 1, 0],
-            },
-            Binary {
-                split: vec![1, 0, 1, 1, 1],
-            },
-            Binary {
-                split: vec![1, 0, 1, 0, 1],
-            },
-            Binary {
-                split: vec![1, 1, 1, 0, 0],
-            },
-            Binary {
-                split: vec![1, 0, 0, 0, 0],
-            },
-            Binary {
-                split: vec![1, 1, 0, 0, 1],
-            },
+            Binary::new(vec![1, 1, 1, 1, 0]),
+            Binary::new(vec![1, 0, 1, 1, 0]),
+            Binary::new(vec![1, 0, 1, 1, 1]),
+            Binary::new(vec![1, 0, 1, 0, 1]),
+            Binary::new(vec![1, 1, 1, 0, 0]),
+            Binary::new(vec![1, 0, 0, 0, 0]),
+            Binary::new(vec![1, 1, 0, 0, 1]),
         ]);
 
         assert_eq!("10100", result.to_string())

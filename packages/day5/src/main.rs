@@ -15,12 +15,12 @@ fn part_one(vents: &[Vent]) -> usize {
     let mut map: HashMap<(usize, usize), usize> = HashMap::new();
 
     for vent in vents {
-        if vent.x.0 != vent.x.1 && vent.y.0 != vent.y.1 {
+        if vent.a.0 != vent.b.0 && vent.a.1 != vent.b.1 {
             continue;
         }
 
-        for x in vent.x.0..=vent.x.1 {
-            for y in vent.y.0..=vent.y.1 {
+        for x in vent.a.0..=vent.b.0 {
+            for y in vent.a.1..=vent.b.1 {
                 map.insert((x, y), map.get(&(x, y)).unwrap_or(&0) + 1);
             }
         }
@@ -37,8 +37,8 @@ fn part_one(vents: &[Vent]) -> usize {
 
 #[derive(Debug)]
 struct Vent {
-    x: (usize, usize),
-    y: (usize, usize),
+    a: (usize, usize),
+    b: (usize, usize),
 }
 
 impl FromStr for Vent {
@@ -62,8 +62,8 @@ impl FromStr for Vent {
                 y.sort_unstable();
 
                 Ok(Vent {
-                    x: (x[0], x[1]),
-                    y: (y[0], y[1]),
+                    a: (x[0], y[0]),
+                    b: (x[1], y[1]),
                 })
             }
             None => Err(()),

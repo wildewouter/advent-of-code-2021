@@ -14,11 +14,7 @@ fn main() {
 
 fn part_one(vents: &[Vent]) -> usize {
     let mut map: HashMap<(usize, usize), usize> = HashMap::new();
-
-    let straight_vents: Vec<&Vent> = vents
-        .iter()
-        .filter(|vent| vent.a.0 == vent.b.0 || vent.a.1 == vent.b.1)
-        .collect();
+    let straight_vents = get_straight_vents(vents);
 
     count_straight_vents(&mut map, &straight_vents);
 
@@ -31,13 +27,16 @@ fn part_one(vents: &[Vent]) -> usize {
     })
 }
 
-fn part_two(vents: &[Vent]) -> usize {
-    let mut map: HashMap<(usize, usize), usize> = HashMap::new();
-
-    let straight_vents: Vec<&Vent> = vents
+fn get_straight_vents(vents: &[Vent]) -> Vec<&Vent> {
+    vents
         .iter()
         .filter(|vent| vent.a.0 == vent.b.0 || vent.a.1 == vent.b.1)
-        .collect();
+        .collect()
+}
+
+fn part_two(vents: &[Vent]) -> usize {
+    let mut map: HashMap<(usize, usize), usize> = HashMap::new();
+    let straight_vents = get_straight_vents(vents);
 
     count_straight_vents(&mut map, &straight_vents);
 

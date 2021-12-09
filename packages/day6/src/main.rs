@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 fn main() {
     let path = format!("{}/input", env!("CARGO_MANIFEST_DIR"));
     let fish: Vec<usize> = read::file(&path)
@@ -6,30 +8,37 @@ fn main() {
         .collect();
 
     println!("Part one: {}", part_one(&fish, &80));
+    println!("Part two: {}", part_two(&fish, &256));
 }
 
 fn part_one(lantern_fish: &[usize], days: &usize) -> usize {
-    pass_day(lantern_fish, &0, days).len()
-}
+    let mut ages: HashMap<usize, usize> = HashMap::new();
 
-fn pass_day(lantern_fish: &[usize], current_day: &usize, end_day: &usize) -> Vec<usize> {
-    if current_day == end_day {
-        return Vec::from(lantern_fish);
+    for fish in lantern_fish {
+        ages.insert(*fish, *ages.get(fish).unwrap_or(&0) + 1);
     }
 
-    let new_fish: Vec<usize> = lantern_fish
-        .into_iter()
-        .map(produce_fish)
-        .flatten()
-        .collect();
+    for _ in 0..*days {
+        let day8 = *ages.get(&8).unwrap_or(&0);
+        let day7 = *ages.get(&7).unwrap_or(&0);
+        let day6 = *ages.get(&6).unwrap_or(&0);
+        let day5 = *ages.get(&5).unwrap_or(&0);
+        let day4 = *ages.get(&4).unwrap_or(&0);
+        let day3 = *ages.get(&3).unwrap_or(&0);
+        let day2 = *ages.get(&2).unwrap_or(&0);
+        let day1 = *ages.get(&1).unwrap_or(&0);
+        let day0 = *ages.get(&0).unwrap_or(&0);
 
-    pass_day(&new_fish, &(current_day + 1), end_day)
-}
-
-fn produce_fish(fish: &usize) -> Vec<usize> {
-    if fish == &0 {
-        return Vec::from([6, 8]);
+        ages.insert(8, day0);
+        ages.insert(7, day8);
+        ages.insert(6, day7 + day0);
+        ages.insert(5, day6);
+        ages.insert(4, day5);
+        ages.insert(3, day4);
+        ages.insert(2, day3);
+        ages.insert(1, day2);
+        ages.insert(0, day1);
     }
 
-    Vec::from([fish - 1])
+    ages.values().fold(0, |x, y| x + y)
 }

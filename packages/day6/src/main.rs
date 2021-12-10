@@ -8,7 +8,7 @@ fn main() {
         .collect();
 
     println!("Part one: {}", part_one(&fish, &80));
-    println!("Part two: {}", part_two(&fish, &256));
+    println!("Part two: {}", part_one(&fish, &256));
 }
 
 fn part_one(lantern_fish: &[usize], days: &usize) -> usize {

@@ -7,6 +7,7 @@ fn main() {
         .filter_map(|age_str| age_str.parse::<usize>().ok())
         .collect();
 
+    println!("Day six");
     println!("Part one: {}", part_one(&fish, &80));
     println!("Part two: {}", part_one(&fish, &256));
 }

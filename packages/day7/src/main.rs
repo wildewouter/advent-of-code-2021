@@ -8,6 +8,7 @@ fn main() {
         .filter_map(|num| num.parse::<usize>().ok())
         .collect();
 
+    println!("Day seven");
     println!("Part one: {}", part_one(&content));
     println!("Part two: {}", part_two(&content));
 }

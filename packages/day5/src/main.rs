@@ -8,6 +8,8 @@ fn main() {
         .lines()
         .map(|line| line.parse::<Vent>().unwrap())
         .collect();
+
+    println!("Day five");
     println!("Part one: {}", part_one(&content));
     println!("Part two: {}", part_two(&content));
 }

@@ -5,6 +5,7 @@ fn main() {
     let path = format!("{}/input", env!("CARGO_MANIFEST_DIR"));
     let content = read::file(&path);
 
+    println!("Day four");
     println!("Part one: {}", part_one(&content));
     println!("Part two: {}", part_two(&content));
 }

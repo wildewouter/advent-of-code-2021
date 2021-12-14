@@ -169,12 +169,3 @@ mod tests {
         assert_eq!(6, func(input3).unwrap());
     }
 }
-
-// acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cdfeb fcadb cdfeb cdbaf
-
-// 6 => !1 4 !7 8
-// 2 => !1 !4 !7 8
-// 5 => !1 !4 !7 8 6
-// 0 => 1 !4 7 8
-// 3 => 1 !4 7 8
-// 9 => 1 4 7 8

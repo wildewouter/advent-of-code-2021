@@ -50,9 +50,9 @@ impl ToString for Binary {
     }
 }
 
-impl Into<usize> for Binary {
-    fn into(self) -> usize {
-        usize::from_str_radix(self.to_string().as_str(), 2).unwrap()
+impl From<Binary> for usize {
+    fn from(s: Binary) -> usize {
+        usize::from_str_radix(s.to_string().as_str(), 2).unwrap()
     }
 }
 

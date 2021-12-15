@@ -61,9 +61,9 @@ fn determine_unique_length_nums(wiring: &str) -> HashMap<usize, &str> {
 
     for sequence in wiring.split_whitespace() {
         match sequence.chars().count() {
-            2 => list.insert(1, sequence.clone()),
-            3 => list.insert(7, sequence.clone()),
-            4 => list.insert(4, sequence.clone()),
+            2 => list.insert(1, sequence),
+            3 => list.insert(7, sequence),
+            4 => list.insert(4, sequence),
             _ => None,
         };
     }
@@ -72,18 +72,18 @@ fn determine_unique_length_nums(wiring: &str) -> HashMap<usize, &str> {
 }
 
 fn determine_number(one: String, four: String, seven: String) -> impl Fn(&str) -> Option<usize> {
-    return move |number: &str| -> Option<usize> {
+    move |number: &str| -> Option<usize> {
         let one_vec = one
             .split("")
-            .filter(|char| char.len() > 0)
+            .filter(|char| !char.is_empty())
             .collect::<Vec<&str>>();
         let four_vec = four
             .split("")
-            .filter(|char| char.len() > 0)
+            .filter(|char| !char.is_empty())
             .collect::<Vec<&str>>();
         let seven_vec = seven
             .split("")
-            .filter(|char| char.len() > 0)
+            .filter(|char| !char.is_empty())
             .collect::<Vec<&str>>();
 
         match number.chars().count() {
@@ -99,7 +99,7 @@ fn determine_number(one: String, four: String, seven: String) -> impl Fn(&str) -
 
                 if number
                     .split("")
-                    .filter(|char| char.len() > 0)
+                    .filter(|char| !char.is_empty())
                     .filter(|&char| four_vec.contains(&char))
                     .count()
                     == 3
@@ -127,18 +127,17 @@ fn determine_number(one: String, four: String, seven: String) -> impl Fn(&str) -
             7 => Some(8),
             _ => None,
         }
-    };
+    }
 }
 
 fn does_apply(vecs_to_check: &[&Vec<&str>], number: &str) -> bool {
-    vecs_to_check.into_iter().fold(true, |result, next_vec| {
-        let remaining: Vec<&str> = number
+    vecs_to_check.iter().all(|next_vec| {
+        number
             .split("")
-            .filter(|char| char.len() > 0)
-            .filter(|char| next_vec.contains(&char))
-            .collect();
-
-        result && remaining.len() == next_vec.len()
+            .filter(|char| !char.is_empty())
+            .filter(|char| next_vec.contains(char))
+            .count()
+            == next_vec.len()
     })
 }
 

@@ -14,8 +14,8 @@ fn main() {
 }
 
 fn part_one(crabs: &[usize]) -> usize {
-    let min = crabs.into_iter().min().unwrap();
-    let max = crabs.into_iter().max().unwrap();
+    let min = crabs.iter().min().unwrap();
+    let max = crabs.iter().max().unwrap();
 
     let mut fuel_used: HashMap<usize, usize> = HashMap::new();
     for new_position in *min..*max {
@@ -31,8 +31,8 @@ fn part_one(crabs: &[usize]) -> usize {
 }
 
 fn part_two(crabs: &[usize]) -> usize {
-    let min = crabs.into_iter().min().unwrap();
-    let max = crabs.into_iter().max().unwrap();
+    let min = crabs.iter().min().unwrap();
+    let max = crabs.iter().max().unwrap();
 
     let mut fuel_used: HashMap<usize, usize> = HashMap::new();
     for new_position in *min..*max {

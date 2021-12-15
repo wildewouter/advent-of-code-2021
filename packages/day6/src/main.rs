@@ -3,7 +3,7 @@ use std::collections::HashMap;
 fn main() {
     let path = format!("{}/input", env!("CARGO_MANIFEST_DIR"));
     let fish: Vec<usize> = read::file(&path)
-        .split(",")
+        .split(',')
         .filter_map(|age_str| age_str.parse::<usize>().ok())
         .collect();
 
@@ -41,5 +41,5 @@ fn part_one(lantern_fish: &[usize], days: &usize) -> usize {
         ages.insert(0, day1);
     }
 
-    ages.values().fold(0, |x, y| x + y)
+    ages.values().sum()
 }

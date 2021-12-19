@@ -36,7 +36,7 @@ fn do_it(start_set: &Vec<&str>, rule_set: &HashMap<String, String>, times: usize
 
         for (pair, amount) in pairs_in_line.clone() {
             if let Some(letter) = rule_set.get(&pair.to_string()) {
-                let existing: Vec<char> = pair.chars().take(2).collect();
+                let existing: Vec<char> = pair.chars().collect();
                 for combo in vec![
                     &format!("{}{}", existing[0], letter),
                     &format!("{}{}", letter, existing[1]),
@@ -56,7 +56,7 @@ fn do_it(start_set: &Vec<&str>, rule_set: &HashMap<String, String>, times: usize
     result_set.insert(start_set[0].to_string(), 1);
 
     for (pair, value) in pairs_in_line {
-        let letters: Vec<char> = pair.chars().take(2).collect();
+        let letters: Vec<char> = pair.chars().collect();
 
         let string = letters[1].to_string();
         result_set.insert(
